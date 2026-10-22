@@ -1,0 +1,10 @@
+# .github/metadata.yaml
+description: "Swift implementation of ISO/IEC 7064: Check character systems."
+topics:
+  - standards
+  - iso
+  - iso-7064
+  - check-digits
+homepage: "https://swift-institute.org"
+readme:
+  family: E
