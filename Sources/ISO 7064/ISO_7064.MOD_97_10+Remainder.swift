@@ -1,46 +1,36 @@
 extension ISO_7064.MOD_97_10 {
-
-    /// The remainder on division by 97 of the number `text` denotes, with
-    /// each letter read as its two-digit value.
-    public static func remainder(of text: some StringProtocol) throws(Error) -> Int {
+    internal static func remainder(
+        of text: some StringProtocol
+    ) throws(ISO_7064.MOD_97_10.Error) -> Int {
         guard !text.isEmpty else { throw .empty }
         var remainder = 0
-        for scalar in text.unicodeScalars {
-            switch scalar {
-            case "0"..."9":
-                remainder = (remainder * 10 + scalar.digit) % 97
-            case "A"..."Z":
-                remainder = (remainder * 100 + scalar.letter) % 97
+        for byte in text.utf8 {
+            switch byte {
+            case UInt8(ascii: "0")...UInt8(ascii: "9"):
+                remainder = (remainder * 10 + Int(byte - UInt8(ascii: "0"))) % 97
+
+            case UInt8(ascii: "A")...UInt8(ascii: "Z"):
+                remainder = (remainder * 100 + Int(byte - UInt8(ascii: "A")) + 10) % 97
+
             default:
-                throw .invalidCharacter(scalar)
+                throw .invalidCharacter
             }
         }
         return remainder
     }
 
-    /// Whether `text`, check digits included, satisfies MOD 97-10.
     public static func isValid(_ text: some StringProtocol) -> Bool {
-        do throws(Error) {
+        do throws(ISO_7064.MOD_97_10.Error) {
             return try remainder(of: text) == 1
         } catch {
             return false
         }
     }
 
-    /// The check value, 2–98, that makes `text` followed by its two check
-    /// digits satisfy MOD 97-10.
-    public static func check(for text: some StringProtocol) throws(Error) -> Int {
-        98 - (try remainder(of: text) * 100) % 97
-    }
-}
-
-extension Unicode.Scalar {
-
-    fileprivate var digit: Int {
-        Int(value - ("0" as Unicode.Scalar).value)
-    }
-
-    fileprivate var letter: Int {
-        Int(value - ("A" as Unicode.Scalar).value) + 10
+    public static func check(
+        for text: some StringProtocol
+    ) throws(ISO_7064.MOD_97_10.Error) -> String {
+        let check = 98 - (try remainder(of: text) * 100) % 97
+        return check < 10 ? "0\(check)" : "\(check)"
     }
 }

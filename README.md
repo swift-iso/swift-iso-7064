@@ -11,7 +11,7 @@ Swift implementation of the ISO/IEC 7064 check character system MOD 97-10.
 ```swift
 import ISO_7064
 
-try ISO_7064.MOD_97_10.check(for: "794")      // 44
+try ISO_7064.MOD_97_10.check(for: "794")      // "44"
 ISO_7064.MOD_97_10.isValid("79444")           // true
 ```
 
