@@ -1,5 +1,5 @@
-@testable import ISO_7064
 import Testing
+@testable import ISO_7064
 
 extension ISO_7064.MOD_97_10 {
     @Suite struct Test {
