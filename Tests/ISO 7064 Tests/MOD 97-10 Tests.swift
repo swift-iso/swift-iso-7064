@@ -1,14 +1,16 @@
 import Testing
 @testable import ISO_7064
 
-extension ISO_7064.MOD_97_10 {
+enum `ISO_7064.MOD_97_10 Tests` {}
+
+extension `ISO_7064.MOD_97_10 Tests` {
     @Suite struct Test {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
     }
 }
 
-extension ISO_7064.MOD_97_10.Test.Unit {
+extension `ISO_7064.MOD_97_10 Tests`.Test.Unit {
 
     @Test
     func `the standard's numeric example 794 has check digits 44`() throws {
@@ -40,7 +42,7 @@ extension ISO_7064.MOD_97_10.Test.Unit {
     }
 }
 
-extension ISO_7064.MOD_97_10.Test.`Edge Case` {
+extension `ISO_7064.MOD_97_10 Tests`.Test.`Edge Case` {
 
     @Test
     func `empty text is refused`() {
